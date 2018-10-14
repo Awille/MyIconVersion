@@ -6,7 +6,7 @@ import org.gradle.api.Project
 class MyPlugin implements Plugin<Project>{
 
 
-    //xxx
+//冲突解决
 
     @Override
     void apply(Project project) {
