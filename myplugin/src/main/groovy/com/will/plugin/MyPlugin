@@ -5,6 +5,9 @@ import org.gradle.api.Project
 
 class MyPlugin implements Plugin<Project>{
 
+
+    //xxx
+
     @Override
     void apply(Project project) {
         println("This is will's plugin")
