@@ -15,8 +15,8 @@ uploadArchives {
         mavenDeployer {
             repository(url: uri('repo')) //打包路径
             //设置插件的GAV参数
-            pom.groupId = 'com.will.myplugin'
-            pom.artifactId = 'myPlugin'
+            pom.groupId = 'com.will.plugin'
+            pom.artifactId = 'NewPlugin'
             pom.version = 1.0
 
         }
