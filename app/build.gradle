@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com-will-plugin'
+//apply plugin: 'com-will-plugin'
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -12,14 +12,24 @@ android {
     }
     buildTypes {
         release {
+            minifyEnabled true   //代表是否混淆代码
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro' //代码加密原则
+            //shrinkResources true    //自动移除不需要使用的资源
+        }
+        debug{
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //shrinkResources true
         }
     }
+
+    lintOptions{  //忽略lint错误
+        abortOnError false
+    }
+
 }
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+dependencies {  //指定当前模块的依赖
+    implementation fileTree(dir: 'libs', include: ['*.jar']) //依赖本地jar文件
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'

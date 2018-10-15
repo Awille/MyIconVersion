@@ -1,14 +1,40 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: 'com.jfrog.bintray'
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven{
+        url "https://dl.google.com/dl/android/maven2/"
+    }
+}
 
 dependencies {
     compile gradleApi()
     compile localGroovy()
+    compile 'com.android.tools.build:gradle:3.1.3'
+    compile 'com.google.guava:guava:18.0'
+
+
 }
 
-repositories {
-    mavenCentral()
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies{
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+    }
 }
+
+sourceCompatibility = JavaVersion.VERSION_1_8  //指定编译生成的.class文件版本
+targetCompatibility = JavaVersion.VERSION_1_8  //确定生成的class文件与虚拟机相匹配
+
+
+
 
 uploadArchives {
     repositories {
@@ -22,3 +48,4 @@ uploadArchives {
         }
     }
 }
+
