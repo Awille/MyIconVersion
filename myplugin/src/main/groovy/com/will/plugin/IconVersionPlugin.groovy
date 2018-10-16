@@ -3,27 +3,71 @@ package com.will.plugin
 import com.android.build.gradle.AppPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import com.android.build.gradle.api.BaseVariant
+import com.android.build.gradle.api.BaseVariantOutput
+import com.android.build.gradle.tasks.ProcessAndroidResources
 
 
+import static com.will.plugin.IconUtils.addTextToImage
+import static com.will.plugin.IconUtils.findIcons
 
-class IconVersionPlugin implements Plugin<Project>{
+class IconVersionPlugin implements Plugin<Project> {
 
     @Override
-    void apply(Project target) {
-        if(!target.plugins.hasPlugin(AppPlugin)){
-            throw new IllegalStateException(
-                    "android plugin required"
-            )
+    void apply(Project project) {
+        if (!project.plugins.hasPlugin(AppPlugin)) {
+            throw new IllegalStateException("'android' plugin required.")
         }
 
-        //创建一个extension 让用户可以自己设定属性
-        //extension是projet的容器
-        IconVersionConfig config = target.extensions.create("iconVersionConfig",IconVersionConfig);
+        // Register extension to allow users to customize
+        IconVersionConfig config = project.extensions.create("iconVersionConfig", IconVersionConfig)
 
+        def log = project.logger
+        project.android.applicationVariants.all { BaseVariant variant ->
 
+            // Dont want to modify release builds
+            if (!(config.buildTypes.contains(variant.buildType.name) || variant.buildType.debuggable) ) {
+                log.info "IconVersionPlugin. Skipping variant: $variant.name"
+                return
+            }
 
+            def lines = []
+            if (config.shouldDisplayBuildName) {
+                lines.push(variant.flavorName + " " + variant.buildType.name)
+            }
+            if (config.shouldDisplayVersionName) {
+                lines.push(variant.versionName)
+            }
+            if (config.shouldDisplayVersionCode) {
+                lines.push(String.valueOf(variant.versionCode))
+            }
 
+            log.info "IconVersionPlugin. Processing variant: $variant.name"
+            variant.outputs.each { BaseVariantOutput output ->
+                output.processResources.doFirst { ProcessAndroidResources task ->
+                    variant.outputs.each { BaseVariantOutput variantOutput ->
+                        File manifest = new File(output.processManifest.manifestOutputDirectory, "AndroidManifest.xml")
 
+                        ArrayList<File> resDirs = new ArrayList<>()
+                        variant.sourceSets.forEach { set ->
+                            set.getResDirectories().forEach { resDir ->
+                                if (resDir.exists()) {
+                                    resDirs.add(resDir)
+                                }
+                            }
+                        }
 
+                        resDirs.each { File resDir ->
+                            log.info "IconVersionPlugin. Looking for icons in dir: ${resDir}"
+                            findIcons(resDir, manifest).each { File icon ->
+                                log.info "Adding build information to: " + icon.absolutePath
+
+                                addTextToImage(icon, config, *lines)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

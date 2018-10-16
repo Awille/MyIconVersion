@@ -18,13 +18,13 @@ class IconVersionConfig {  //图标版本基本配置
 
     int[] textColor =[255,255,255,255] //字体颜色
 
-    boolean shouldDisplayBuilName = true  //是否显示
+    boolean shouldDisplayBuildName = true;
+    boolean shouldDisplayVersionCode = false;
+    boolean shouldDisplayVersionName = true;
 
-    boolean shouldDisplayBuildVersionName = true //是否显示版本名字
 
-    boolean shouldDisplayBuildVersionCode = false //是否显示版本号
 
-    public Color getBackGroundOverlayColor(){
+    public Color getBackgroundOverlayColor(){
         return intArrayToColor(backgroundOverlayCocor) ?: TRANSPARENT;
     }
 

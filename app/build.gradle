@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com-will-plugin'
+apply plugin: 'com-will-plugin'
 android {
     compileSdkVersion 26
     defaultConfig {
