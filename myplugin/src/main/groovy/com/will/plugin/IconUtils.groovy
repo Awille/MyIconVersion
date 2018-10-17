@@ -139,6 +139,7 @@ class IconUtils {
         final int imgHeight = bufferedImage.width;
         final int lineCount = lines.length;
         final int fontSize = imgHeight / 2 / lineCount
+        //final int fontSize = config.fontSize
         final int totalLineHeight = (fontSize * lineCount) + ((linePadding + 1) * lineCount);
 
         GraphicsEnvironment.localGraphicsEnvironment.createGraphics(bufferedImage).with { g ->

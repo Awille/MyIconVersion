@@ -7,7 +7,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -16,7 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro' //代码加密原则
             //shrinkResources true    //自动移除不需要使用的资源
         }
-        debug{
+        debug {
             minifyEnabled false
             //shrinkResources true
         }
@@ -35,4 +35,14 @@ dependencies {  //指定当前模块的依赖
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
+
+iconVersionConfig {
+    fontSize = 12;  //图标文字大小
+    verticalLinePadding = 4  //
+    backgroundOverlayCocor = [0, 0, 0, 136] //背景色
+    textColor =[255,255,255,255] //字体颜色
+    shouldDisplayBuildName = true;
+    shouldDisplayVersionCode = true;
+    shouldDisplayVersionName = true;
 }
